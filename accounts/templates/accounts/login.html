@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - New Works Store{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow-sm">
+            <div class="card-body p-5">
+                <h2 class="card-title text-center mb-4">Welcome Back</h2>
+
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger" role="alert">
+                    {% for error in form.non_field_errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label">Email or Phone</label>
+                        <input type="text" name="username" class="form-control" id="id_username" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="id_password" class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" id="id_password" required>
+                        <div class="text-end mt-1">
+                            <a href="{% url 'password_reset' %}" class="text-decoration-none small">Forgot Password?</a>
+                        </div>
+                    </div>
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                    </div>
+                </form>
+
+                <p class="text-center mt-4">
+                    Don't have an account? <a href="{% url 'register' %}">Register here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

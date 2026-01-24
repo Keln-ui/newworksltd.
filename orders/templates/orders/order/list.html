@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}My Orders - New Works Store{% endblock %}
+
+{% block content %}
+<div class="row mb-5">
+    <div class="col-12 text-center mb-4">
+        <h2 class="fw-bold">My Orders</h2>
+        <p class="text-muted">Track your purchase history</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+            <div class="card-body p-0">
+                {% if orders %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="py-3 ps-4">Order ID</th>
+                                <th class="py-3">Date</th>
+                                <th class="py-3">Total Cost</th>
+                                <th class="py-3">Status</th>
+                                <th class="py-3 pe-4 text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                            <tr>
+                                <td class="ps-4 fw-bold text-primary">#{{ order.id }}</td>
+                                <td>{{ order.created_at|date:"M d, Y" }}</td>
+                                <td class="fw-semibold">KES {{ order.total_cost }}</td>
+                                <td>
+                                    {% if order.status == 'Pending' %}
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                    {% elif order.status == 'Processing' %}
+                                    <span class="badge bg-info text-dark">Processing</span>
+                                    {% elif order.status == 'Shipped' %}
+                                    <span class="badge bg-primary">Shipped</span>
+                                    {% elif order.status == 'Delivered' %}
+                                    <span class="badge bg-success">Delivered</span>
+                                    {% elif order.status == 'Cancelled' %}
+                                    <span class="badge bg-danger">Cancelled</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">{{ order.status }}</span>
+                                    {% endif %}
+                                </td>
+                                <td class="pe-4 text-end">
+                                    <a href="{% url 'order_detail' order.id %}"
+                                        class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                        View Details
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <div class="mb-3">
+                        <i class="fas fa-shopping-bag fa-3x text-muted opacity-50"></i>
+                    </div>
+                    <h5 class="fw-bold text-muted">No orders found</h5>
+                    <p class="text-muted mb-4">You haven't placed any orders yet.</p>
+                    <a href="/" class="btn btn-primary-custom rounded-pill px-4">Start Shopping</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

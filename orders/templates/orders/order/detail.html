@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}Order #{{ order.id }} - New Works Store{% endblock %}
+
+{% block content %}
+<div class="row mb-4 align-items-center">
+    <div class="col-md-6">
+        <h2 class="fw-bold mb-0">Order #{{ order.id }}</h2>
+        <p class="text-muted mb-0">Placed on {{ order.created_at|date:"F j, Y, P" }}</p>
+    </div>
+    <div class="col-md-6 text-md-end mt-3 mt-md-0">
+        <a href="{% url 'order_list' %}" class="btn btn-outline-secondary rounded-pill px-4">
+            <i class="fas fa-arrow-left me-2"></i>Back to Orders
+        </a>
+    </div>
+</div>
+
+<div class="row g-4 mb-5">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+            <div class="card-header bg-white border-bottom p-4">
+                <h5 class="mb-0 fw-bold text-primary">Items</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="py-3 ps-4">Product</th>
+                                <th class="py-3 text-center">Quantity</th>
+                                <th class="py-3 text-end pe-4">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in order.items.all %}
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="fw-bold">{{ item.product.name }}</div>
+                                </td>
+                                <td class="text-center">{{ item.quantity }}</td>
+                                <td class="text-end pe-4 fw-semibold">KES {{ item.price }}</td>
+                            </tr>
+                            {% endfor %}
+                            <tr class="bg-light">
+                                <td colspan="2" class="text-end py-3 fw-bold">Total Cost:</td>
+                                <td class="text-end pe-4 py-3 fw-bold text-primary h5 mb-0">KES {{ order.total_cost }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <!-- Status Card -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body p-4">
+                <h5 class="fw-bold text-primary mb-3">Order Status</h5>
+                <div class="d-flex align-items-center">
+                    {% if order.status == 'Pending' %}
+                    <div class="flex-grow-1">
+                        <span class="badge bg-warning text-dark fs-6 w-100 py-2">Pending</span>
+                        <p class="small text-muted mt-2 mb-0">We have received your order.</p>
+                    </div>
+                    {% elif order.status == 'Processing' %}
+                    <div class="flex-grow-1">
+                        <span class="badge bg-info text-dark fs-6 w-100 py-2">Processing</span>
+                        <p class="small text-muted mt-2 mb-0">We are preparing your order.</p>
+                    </div>
+                    {% elif order.status == 'Shipped' %}
+                    <div class="flex-grow-1">
+                        <span class="badge bg-primary fs-6 w-100 py-2">Shipped</span>
+                        <p class="small text-muted mt-2 mb-0">Your order is on the way.</p>
+                    </div>
+                    {% elif order.status == 'Delivered' %}
+                    <div class="flex-grow-1">
+                        <span class="badge bg-success fs-6 w-100 py-2">Delivered</span>
+                        <p class="small text-muted mt-2 mb-0">Order has been delivered.</p>
+                    </div>
+                    {% elif order.status == 'Cancelled' %}
+                    <div class="flex-grow-1">
+                        <span class="badge bg-danger fs-6 w-100 py-2">Cancelled</span>
+                        <p class="small text-muted mt-2 mb-0">This order was cancelled.</p>
+                    </div>
+                    {% else %}
+                    <span class="badge bg-secondary fs-6 w-100 py-2">{{ order.status }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Shipping Info -->
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+                <h5 class="fw-bold text-primary mb-3">Shipping Details</h5>
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2"><strong>Name:</strong> {{ order.first_name }} {{ order.last_name }}</li>
+                    <li class="mb-2"><strong>Email:</strong> {{ order.email }}</li>
+                    <li class="mb-2"><strong>City:</strong> {{ order.city }}</li>
+                    <li><strong>Address:</strong><br>{{ order.address }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

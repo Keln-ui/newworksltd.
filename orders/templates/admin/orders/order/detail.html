@@ -1,0 +1,62 @@
+{% extends "admin/base_site.html" %}
+
+{% block title %}
+Order {{ order.id }} {{ block.super }}
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">Home</a> &rsaquo;
+    <a href="{% url 'admin:orders_order_changelist' %}">Orders</a> &rsaquo;
+    Order {{ order.id }}
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="module">
+    <h1>Order {{ order.id }}</h1>
+    <ul class="object-tools">
+        <li>
+            <a href="#" onclick="window.print();" class="historylink" style="cursor: pointer;">Print this page</a>
+        </li>
+    </ul>
+
+    <div style="background: white; padding: 20px; border: 1px solid #ccc;">
+        <h2>Order Information</h2>
+        <p>
+            <strong>Created:</strong> {{ order.created_at }}<br>
+            <strong>Customer:</strong> {{ order.user.get_full_name|default:order.user.username }}<br>
+            <strong>Email:</strong> <a href="mailto:{{ order.user.email }}">{{ order.user.email }}</a><br>
+            <strong>Status:</strong> {{ order.status }}
+        </p>
+
+        <h2>Items</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="border-bottom: 2px solid #ddd; text-align: left;">
+                    <th style="padding: 10px;">Product</th>
+                    <th style="padding: 10px;">Price</th>
+                    <th style="padding: 10px;">Quantity</th>
+                    <th style="padding: 10px;">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.items.all %}
+                <tr style="border-bottom: 1px solid #eee;">
+                    <td style="padding: 10px;">{{ item.product.name }}</td>
+                    <td style="padding: 10px;">KES {{ item.price }}</td>
+                    <td style="padding: 10px;">{{ item.quantity }}</td>
+                    <td style="padding: 10px;">KES {{ item.cost }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr style="font-weight: bold;">
+                    <td colspan="3" style="padding: 10px; text-align: right;">Total Cost:</td>
+                    <td style="padding: 10px;">KES {{ order.total_cost }}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+{% endblock %}

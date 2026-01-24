@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Model Store - Premium Products{% endblock %}
+
+{% block content %}
+<div class="hero-section fade-in">
+    <div class="container">
+        <h1 class="hero-title display-4">We Model the Best</h1>
+        <p class="hero-subtitle mb-4">Discover our premium collection of products curated just for you.</p>
+        <a href="#products" class="btn btn-light btn-lg rounded-pill px-5 shadow-sm text-primary fw-bold">Shop Now</a>
+    </div>
+</div>
+
+<div class="row mb-5 fade-in" style="animation-delay: 0.2s;">
+    <div class="col-md-8 mx-auto">
+        <form class="d-flex shadow-sm rounded-pill overflow-hidden" action="." method="get">
+            <input class="form-control border-0 px-4 py-3" type="search" placeholder="Search for premium products..."
+                aria-label="Search" name="q" value="{{ query|default:'' }}">
+            <button class="btn btn-primary px-4 bg-primary border-0" type="submit"><i
+                    class="fas fa-search"></i></button>
+        </form>
+    </div>
+</div>
+
+<div id="products" class="row row-cols-1 row-cols-md-3 g-4 fade-in" style="animation-delay: 0.4s;">
+    {% for product in products %}
+    <div class="col">
+        <div class="product-card h-100">
+            <div class="product-img-wrapper">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                <div class="bg-light text-muted d-flex align-items-center justify-content-center h-100">
+                    <span>No Image</span>
+                </div>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <h5 class="product-title text-truncate">{{ product.name }}</h5>
+                <p class="text-muted small mb-2">{{ product.description|truncatewords:10 }}</p>
+
+                <div class="d-flex justify-content-between align-items-end mt-3">
+                    <div class="price-container">
+                        {% if product.discount_price and product.discount_price < product.price %} <span
+                            class="text-muted text-decoration-line-through small d-block">KES {{ product.price }}</span>
+                            <span class="product-price">KES {{ product.sell_price }}</span>
+                            {% else %}
+                            <span class="product-price">KES {{ product.price }}</span>
+                            {% endif %}
+                    </div>
+                    <a href="{% url 'product_detail' product.pk %}" class="btn btn-primary-custom btn-sm">View
+                        Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+        <h3 class="text-muted">No products available at the moment.</h3>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
