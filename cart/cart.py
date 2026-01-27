@@ -56,12 +56,26 @@ class Cart:
         Iterate over the items in the cart and get the products from the database.
         """
         product_ids = self.cart.keys()
+        # Filter out non-numeric IDs that might cause issues
+        valid_product_ids = [pid for pid in product_ids if pid.isdigit()]
+        
         # get the product objects and add them to the cart
-        products = Product.objects.filter(id__in=product_ids)
+        products = Product.objects.filter(id__in=valid_product_ids)
         cart = self.cart.copy()
         
         for product in products:
-            cart[str(product.id)]['product'] = product
+            cart_key = str(product.id)
+            if cart_key in cart:
+                cart[cart_key]['product'] = product
+
+        # Remove items with invalid product IDs from the cart
+        for item_key in list(cart.keys()):
+            if not item_key.isdigit() or 'product' not in cart[item_key]:
+                del cart[item_key]
+                if item_key in self.cart:
+                    del self.cart[item_key]
+        
+        self.save()
 
         for item in cart.values():
             item['price'] = Decimal(item['price'])

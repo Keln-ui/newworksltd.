@@ -75,3 +75,63 @@ def profile(request):
     }
 
     return render(request, 'accounts/profile.html', context)
+
+from django.contrib.auth.models import User
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.core.mail import send_mail
+from django.conf import settings
+from .models import Profile
+
+def custom_password_reset(request):
+    error = None
+    if request.method == 'POST':
+        email_or_phone = request.POST.get('email_or_phone', '').strip()
+        
+        # Try to find user by email or phone
+        user = None
+        if '@' in email_or_phone:
+            # It's an email
+            try:
+                user = User.objects.get(email=email_or_phone)
+            except User.DoesNotExist:
+                error = "No account found with this email address."
+        else:
+            # It's a phone number
+            profile = Profile.objects.filter(phone=email_or_phone).first()
+            if profile:
+                user = profile.user
+            else:
+                error = "No account found with this phone number."
+        
+        if user:
+            # Generate password reset token
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            
+            # Create reset link
+            reset_link = request.build_absolute_uri(
+                f'/accounts/reset/{uid}/{token}/'
+            )
+            
+            # Send email if user has email
+            if user.email:
+                try:
+                    send_mail(
+                        'Password Reset Request',
+                        f'Click the link below to reset your password:\n\n{reset_link}\n\nIf you did not request this, please ignore this email.',
+                        settings.DEFAULT_FROM_EMAIL,
+                        [user.email],
+                        fail_silently=False,
+                    )
+                except Exception as e:
+                    # If email fails, still show success message for security
+                    pass
+            
+            # For phone, you would integrate SMS service here
+            # For now, we'll just redirect to done page
+            
+            return redirect('password_reset_done')
+    
+    return render(request, 'accounts/password_reset.html', {'error': error})

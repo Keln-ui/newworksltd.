@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us - New Works{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold mb-3">About New Works</h1>
+                <div class="border-bottom border-primary border-3 w-25 mx-auto mb-4"></div>
+            </div>
+
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-bullseye fa-4x text-primary mb-3"></i>
+                        <h2 class="h3 fw-bold mb-4">Our Mission</h2>
+                    </div>
+                    <p class="lead text-center mb-0">
+                        To establish an all solution IT COMPANY that ensures consumers needs are priority
+                    </p>
+                </div>
+            </div>
+
+            <div class="row g-4 mt-4">
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="card-body">
+                            <i class="fas fa-award fa-3x text-primary mb-3"></i>
+                            <h5 class="card-title fw-bold">Quality Products</h5>
+                            <p class="card-text">We offer only the best quality electronics and gadgets</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="card-body">
+                            <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                            <h5 class="card-title fw-bold">Customer First</h5>
+                            <p class="card-text">Your satisfaction is our top priority</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm text-center p-4">
+                        <div class="card-body">
+                            <i class="fas fa-shipping-fast fa-3x text-primary mb-3"></i>
+                            <h5 class="card-title fw-bold">Fast Delivery</h5>
+                            <p class="card-text">Quick and reliable delivery service</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="{% url 'product_list' %}" class="btn btn-primary btn-lg px-5">
+                    <i class="fas fa-shopping-bag me-2"></i>Shop Now
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

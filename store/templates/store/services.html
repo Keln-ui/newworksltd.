@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Our Services - New Works{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold mb-3">Our Services</h1>
+                <div class="border-bottom border-primary border-3 w-25 mx-auto mb-4"></div>
+                <p class="lead text-muted">Comprehensive IT solutions tailored to your business needs</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Fiber Optics -->
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm hover-shadow">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3">
+                                    <i class="fas fa-network-wired fa-2x text-primary"></i>
+                                </div>
+                                <h3 class="h4 mb-0 fw-bold">Fiber Optics</h3>
+                            </div>
+                            <p class="text-muted mb-3">
+                                High-speed fiber optic network installation and maintenance for reliable, 
+                                lightning-fast internet connectivity. Experience unparalleled bandwidth and 
+                                minimal latency for your business operations.
+                            </p>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>High-speed connectivity</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Professional installation</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>24/7 support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wireless Solutions -->
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm hover-shadow">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3">
+                                    <i class="fas fa-wifi fa-2x text-primary"></i>
+                                </div>
+                                <h3 class="h4 mb-0 fw-bold">Wireless Solutions</h3>
+                            </div>
+                            <p class="text-muted mb-3">
+                                Cutting-edge wireless network solutions for seamless connectivity across 
+                                your organization. From WiFi setup to enterprise-grade wireless infrastructure, 
+                                we've got you covered.
+                            </p>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Enterprise WiFi setup</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Secure connections</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Wide coverage area</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BACKUP Solutions -->
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm hover-shadow">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3">
+                                    <i class="fas fa-database fa-2x text-primary"></i>
+                                </div>
+                                <h3 class="h4 mb-0 fw-bold">BACKUP Solutions</h3>
+                            </div>
+                            <p class="text-muted mb-3">
+                                Protect your critical business data with our comprehensive backup solutions. 
+                                Automated backups, disaster recovery planning, and data restoration services 
+                                to keep your business running smoothly.
+                            </p>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Automated backups</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Disaster recovery</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Data encryption</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cloud Networks -->
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm hover-shadow">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3">
+                                    <i class="fas fa-cloud fa-2x text-primary"></i>
+                                </div>
+                                <h3 class="h4 mb-0 fw-bold">Cloud Networks</h3>
+                            </div>
+                            <p class="text-muted mb-3">
+                                Leverage the power of cloud computing with our scalable cloud network solutions. 
+                                Migrate your infrastructure to the cloud for enhanced flexibility, security, 
+                                and cost-effectiveness.
+                            </p>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Scalable infrastructure</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Cloud migration</li>
+                                <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Cost optimization</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="text-center mt-5">
+                <div class="card border-primary shadow-sm">
+                    <div class="card-body p-5">
+                        <h3 class="fw-bold mb-3">Ready to Transform Your IT Infrastructure?</h3>
+                        <p class="lead mb-4">Contact us today to discuss how our services can benefit your business</p>
+                        <a href="{% url 'contacts' %}" class="btn btn-primary btn-lg px-5 me-3">
+                            <i class="fas fa-phone me-2"></i>Contact Us
+                        </a>
+                        <a href="{% url 'product_list' %}" class="btn btn-outline-primary btn-lg px-5">
+                            <i class="fas fa-shopping-bag me-2"></i>Shop Products
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-shadow {
+        transition: all 0.3s ease;
+    }
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    }
+</style>
+{% endblock %}
