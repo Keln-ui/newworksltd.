@@ -21,7 +21,7 @@ class Cart:
                 try:
                     db_cart = CartModel.objects.get(user=self.user)
                     for item in db_cart.items.all():
-                        cart[str(item.product.id)] = {'quantity': item.quantity, 'price': str(item.product.price)}
+                        cart[str(item.product.id)] = {'quantity': item.quantity, 'price': str(item.product.sell_price)}
                     self.session[settings.CART_SESSION_ID] = cart
                 except CartModel.DoesNotExist:
                     pass
@@ -61,25 +61,27 @@ class Cart:
         
         # get the product objects and add them to the cart
         products = Product.objects.filter(id__in=valid_product_ids)
-        cart = self.cart.copy()
+        cart = {}
         
         for product in products:
             cart_key = str(product.id)
-            if cart_key in cart:
-                cart[cart_key]['product'] = product
+            if cart_key in self.cart:
+                # Create a new dict for each item to avoid modifying session data
+                cart[cart_key] = {
+                    'product': product,
+                    'quantity': self.cart[cart_key]['quantity'],
+                    'price': Decimal(self.cart[cart_key]['price']),
+                }
+                cart[cart_key]['total_price'] = cart[cart_key]['price'] * cart[cart_key]['quantity']
 
-        # Remove items with invalid product IDs from the cart
-        for item_key in list(cart.keys()):
-            if not item_key.isdigit() or 'product' not in cart[item_key]:
-                del cart[item_key]
-                if item_key in self.cart:
-                    del self.cart[item_key]
-        
-        self.save()
+        # Remove items with invalid product IDs from the session cart
+        invalid_keys = [key for key in self.cart.keys() if not key.isdigit() or key not in cart]
+        if invalid_keys:
+            for item_key in invalid_keys:
+                del self.cart[item_key]
+            self.save()
 
         for item in cart.values():
-            item['price'] = Decimal(item['price'])
-            item['total_price'] = item['price'] * item['quantity']
             yield item
 
     def __len__(self):
